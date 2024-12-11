@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: List
+items:
+  {{- range $iname, $instance := .Values.deployments.instances }}
+  {{- range $dname, $deployment := $instance.deployments }}
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: {{ $dname }}
+      annotations:
+        labels:
+          {{- range $key, $value := $.Values.global.labels }}
+          {{ $key }}: {{ $value | quote }}
+          {{- end }}
+          ops.kodzik.cloud/instance: {{ $iname | quote }}
+  {{- end }}
+  {{- end }}
