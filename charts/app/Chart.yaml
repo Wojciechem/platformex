@@ -1,5 +1,5 @@
 apiVersion: v2
-name: platformex
+name: app
 description: Flexible helm chart to deploy your apps to kubernetes cluster.
 
 type: application

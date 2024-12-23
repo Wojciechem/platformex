@@ -1,0 +1,46 @@
+global:
+  labels:
+    ops.kodzik.cloud/chart: "platformex"
+  defaults:
+    imagePullSecrets:
+      - "oci-kodzik"
+    imageRepository: "oci.kodzik.cloud/public/demo"
+
+envPresets:
+  common:
+    APP_ENV: prod
+  worker:
+    WORKER_MODE: 1
+  cron:
+    CRON_MODE: 1
+
+images:
+  default:
+    testowy:
+      imageRepository: "oci.kodzik.cloud/public/demko"
+      imageTag: "1.0.0"
+
+instances:
+  default:
+    enableCrons: false
+    enableWorkers: false
+    crons: []
+    deployments:
+      testowy:
+        replicas: 3
+        initContainers:
+          pszemek:
+            volumeMounts:
+              - mountPath: /var/lib/xyz-conf/.my.cnf
+                name: sum-volum
+                subPath: derp.cnf
+            env:
+              EIP: "true"
+              PASSWORD:
+                valueFrom:
+                  secretKeyRef:
+                    key: password
+                    name: app-secret
+        containers: []
+
+
