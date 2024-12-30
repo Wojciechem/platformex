@@ -3,7 +3,7 @@ Platformex App chart
 
 TODO:
 - [ ] 1st working version
-- [ ] example values file with all possible options used
+- [x] values-example.yaml file with all possible options used
 - [ ] simple stupid test
-- [ ] json schema
+- [ ] json schema based on values-example.yaml
   - [ ] deployment.containers required

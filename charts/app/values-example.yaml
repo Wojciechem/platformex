@@ -1,0 +1,65 @@
+global:
+  defaults:
+    imagePullSecrets:
+      - "oci-kodzik"
+
+envRefs:
+  common:
+    APP_ENV: prod
+    COMMON: "1"
+    SECRET_SAUCE:
+      valueFrom:
+        secretKeyRef:
+          key: sauce
+          name: app-secret
+  worker:
+    WORKER_MODE: "1"
+  cron:
+    CRON_MODE: "1"
+
+imageRefs:
+  demo:
+    repository: "oci.kodzik.cloud/public/demko"
+    tag: "1.0.0"
+
+instances:
+  default:
+    enableCrons: true
+    enableWorkers: true
+    crons: { }
+    deployments:
+      consumer-xyz:
+        worker: true
+        replicas: 1
+        containers:
+          xyz:
+            imageRef: demo
+            env:
+              EIP: "false"
+            envRefs:
+              - common
+              - worker
+      consumer-qwe:
+        worker: true
+        replicas: 1
+        containers:
+          qwe:
+            image: oci.kodzik.cloud/public/konsumer:1.2.3
+            env:
+              EIP: "false"
+      testowy:
+        replicas: 3
+        initContainers:
+          pszemek:
+            volumeMounts:
+              - mountPath: /var/lib/xyz-conf/.my.cnf
+                name: sum-volum
+                subPath: derp.cnf
+            env:
+              EIP: "true"
+              PASSWORD:
+                valueFrom:
+                  secretKeyRef:
+                    key: password
+                    name: app-secret
+        containers: [ ]
