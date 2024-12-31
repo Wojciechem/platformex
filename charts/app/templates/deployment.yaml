@@ -31,28 +31,13 @@ items:
           initContainers:
             {{- range $icName, $initContainer := $deployment.initContainers }}
             {{- $icContext := dict "iname" $iname "instance" $instance "name" $icName "container" $initContainer "root" $ }}
-            - name: {{ $icName }}
-              {{- include "platformex.deployment.volumeMounts" $initContainer | indent 14 }}
-              {{- include "platformex.deployment.envFrom" $icContext | indent 14 }}
-              {{- include "platformex.deployment.env" $icContext | indent 14 }}
-{{- /*              {{- include "platformex.deployment.imagePullPolicy" $icContext | indent 14 }}*/}}
-              {{- include "platformex.deployment.image" $icContext | indent 14 }}
-{{- /*              {{- include "platformex.deployment.command" $initContainer | indent 14 }}*/}}
-{{- /*              {{- include "platformex.deployment.lifecycle" $initContainer | indent 14 }}*/}}
-{{- /*              {{- include "platformex.deployment.ports" $initContainer | indent 14 }}*/}}
-{{- /*              {{- include "platformex.deployment.liveness" $initContainer | indent 14 }}*/}}
-{{- /*              {{- include "platformex.deployment.readiness" $initContainer | indent 14 }}*/}}
-{{- /*              {{- include "platformex.deployment.startup" $initContainer | indent 14 }}*/}}
-{{- /*              {{- include "platformex.deployment.resources" $initContainer | indent 14 }}*/}}
+            - {{- include "platformex.containerFull" $icContext | indent 14 }}
             {{- end }}
           {{- end }}
           containers:
             {{- range $cName, $container := $deployment.containers }}
             {{- $containerContext := dict "iname" $iname "instance" $instance "name" $cName "container" $container "root" $ }}
-            - name: {{ $cName }}
-              {{- include "platformex.deployment.envFrom" $containerContext | indent 14 }}
-              {{- include "platformex.deployment.env" $containerContext | indent 14 }}
-              {{- include "platformex.deployment.image" $containerContext | indent 14 }}
+            - {{- include "platformex.containerFull" $containerContext | indent 14 }}
             {{- end }}
   {{- end }}
   {{- end }}

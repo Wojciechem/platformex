@@ -55,6 +55,9 @@ instances:
               - mountPath: /var/lib/xyz-conf/.my.cnf
                 name: sum-volum
                 subPath: derp.cnf
+            envFrom:
+              - configMapRef:
+                  name: konfigmapa
             env:
               EIP: "true"
               PASSWORD:
