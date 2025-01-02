@@ -5,7 +5,7 @@ global:
 
 envRefs: { }
 
-images: { }
+imageRefs: { }
 
 instances:
   default:

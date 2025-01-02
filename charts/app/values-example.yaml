@@ -1,4 +1,6 @@
 global:
+  labels:
+    ops.kodzik.cloud/chart: "platformex"
   defaults:
     imagePullSecrets:
       - "oci-kodzik"
@@ -34,6 +36,7 @@ instances:
         containers:
           xyz:
             imageRef: demo
+            command: ["/bin/sh", "-c", "bin/console app:barize:foos"]
             env:
               EIP: "false"
             envRefs:
@@ -51,6 +54,7 @@ instances:
         replicas: 3
         initContainers:
           pszemek:
+            imageRef: demo
             volumeMounts:
               - mountPath: /var/lib/xyz-conf/.my.cnf
                 name: sum-volum
@@ -65,4 +69,33 @@ instances:
                   secretKeyRef:
                     key: password
                     name: app-secret
-        containers: [ ]
+        containers:
+          webapp:
+            imageRef: demo
+            lifecycle:
+              preStop:
+                exec:
+                  command: [ "/bin/sh", "-c", "sleep 2" ]
+            resources:
+              requests:
+                cpu: "200m"
+                memory: "256Mi"
+            livenessProbe:
+              httpGet:
+                path: /
+                port: http
+            readinessProbe:
+              httpGet:
+                path: /
+                port: http
+            ports:
+              - name: web
+                containerPort: 80
+                protocol: TCP
+            envRefs:
+              - common
+            envFrom:
+              - configMapRef:
+                  name: konfigmapa
+            env:
+              EIP: "false"

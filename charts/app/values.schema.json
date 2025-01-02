@@ -1,0 +1,402 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "$ref": "#/definitions/Values",
+  "definitions": {
+    "Values": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "global": {
+          "$ref": "#/definitions/Global"
+        },
+        "envRefs": {
+          "$ref": "#/definitions/EnvRefs"
+        },
+        "imageRefs": {
+          "$ref": "#/definitions/ImageRefs"
+        },
+        "instances": {
+          "$ref": "#/definitions/Instances"
+        }
+      },
+      "required": [
+        "instances"
+      ],
+      "title": "Helm Values"
+    },
+    "EnvRefs": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/EnvRef"
+      },
+      "title": "EnvRefs"
+    },
+    "EnvRef": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/Env"
+      }
+    },
+    "Env": {
+      "type": [
+        "object",
+        "string"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "valueFrom": {
+          "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/v1.31.3/envvar.json#/properties/valueFrom"
+        }
+      }
+    },
+    "Cron": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "CRON_MODE": {
+          "type": "string",
+          "format": "integer"
+        }
+      },
+      "required": [
+        "CRON_MODE"
+      ],
+      "title": "Cron"
+    },
+    "Global": {
+      "type": "object",
+      "properties": {
+        "labels": {
+          "$ref": "#/definitions/Labels"
+        },
+        "defaults": {
+          "$ref": "#/definitions/Defaults"
+        }
+      },
+      "required": [
+        "defaults"
+      ],
+      "title": "Global values"
+    },
+    "Defaults": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "imagePullSecrets": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "title": "Defaults"
+    },
+    "Labels": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Global labels to append to all objects"
+    },
+    "ImageRefs": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/ImageRef"
+      },
+      "title": "Image definitions to be reused via imageRef"
+    },
+    "ImageRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "repository": {
+          "type": "string"
+        },
+        "tag": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "repository",
+        "tag"
+      ],
+      "title": "Points at imageRef defined in Chart"
+    },
+    "Instances": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/Instance"
+      },
+      "title": "Named application instances"
+    },
+    "Instance": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enableCrons": {
+          "type": "boolean"
+        },
+        "enableWorkers": {
+          "type": "boolean"
+        },
+        "crons": {
+          "$ref": "#/definitions/Crons"
+        },
+        "deployments": {
+          "$ref": "#/definitions/Deployments"
+        }
+      },
+      "required": [
+        "deployments",
+        "enableCrons",
+        "enableWorkers"
+      ],
+      "title": "Named application instance definition"
+    },
+    "Crons": {
+      "type": "object",
+      "additionalProperties": false,
+      "title": "Crons"
+    },
+    "Deployments": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/Deployment"
+      },
+      "title": "Deployments for application"
+    },
+    "Deployment": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "worker": {
+          "type": "boolean"
+        },
+        "replicas": {
+          "type": "integer"
+        },
+        "containers": {
+          "$ref": "#/definitions/Containers"
+        },
+        "initContainers": {
+          "$ref": "#/definitions/Containers"
+        }
+      },
+      "required": [
+        "containers",
+        "replicas"
+      ],
+      "title": "Deployment"
+    },
+    "Containers": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/Container"
+      },
+      "title": "Containers"
+    },
+    "EnvFrom": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "configMapRef": {
+          "$ref": "#/definitions/ConfigMapRef"
+        }
+      },
+      "required": [
+        "configMapRef"
+      ],
+      "title": "EnvFrom"
+    },
+    "ConfigMapRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "ConfigMapRef"
+    },
+    "Lifecycle": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "preStop": {
+          "$ref": "#/definitions/PreStop"
+        }
+      },
+      "required": [
+        "preStop"
+      ],
+      "title": "Lifecycle"
+    },
+    "PreStop": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "exec": {
+          "$ref": "#/definitions/Exec"
+        }
+      },
+      "required": [
+        "exec"
+      ],
+      "title": "PreStop"
+    },
+    "Exec": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "command": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "command"
+      ],
+      "title": "Exec"
+    },
+    "LivenessProbe": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "httpGet": {
+          "$ref": "#/definitions/HTTPGet"
+        }
+      },
+      "required": [
+        "httpGet"
+      ],
+      "title": "LivenessProbe"
+    },
+    "HTTPGet": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "port": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "port"
+      ],
+      "title": "HTTPGet"
+    },
+    "Port": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "containerPort": {
+          "type": "integer"
+        },
+        "protocol": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "containerPort",
+        "name",
+        "protocol"
+      ],
+      "title": "Port"
+    },
+    "InitContainers": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/Container"
+      },
+      "title": "InitContainers"
+    },
+    "Container": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "imageRef": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        },
+        "lifecycle": {
+          "$ref": "#/definitions/Lifecycle"
+        },
+        "command": {
+          "type": "array"
+        },
+        "resources": {
+          "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.31.3/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements"
+        },
+        "livenessProbe": {
+          "$ref": "#/definitions/LivenessProbe"
+        },
+        "ports": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Port"
+          }
+        },
+        "envRefs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "envFrom": {
+          "type": "array",
+          "items": {
+            "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.31.3/_definitions.json#/definitions/io.k8s.api.core.v1.EnvFromSource"
+          }
+        },
+        "volumeMounts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/VolumeMount"
+          }
+        },
+        "env": {
+          "$ref": "#/definitions/EnvRef"
+        }
+      },
+      "anyOf": [
+        {"required": ["image"]},
+        {"required": ["imageRef"]}
+      ],
+      "title": "Container"
+    },
+    "VolumeMount": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "mountPath": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "subPath": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "mountPath",
+        "name",
+        "subPath"
+      ],
+      "title": "VolumeMount"
+    }
+  }
+}
