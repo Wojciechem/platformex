@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: List
+items:
+  {{- range $iname, $instance := .Values.instances }}
+  {{- range $dname, $deployment := $instance.deployments }}
+  {{- $deploymentContext := dict "iname" $iname "instance" $instance "name" $dname "deployment" $deployment "root" $ }}
+  {{- if $deployment.ingress }}
+    {{- $svcName := cat $iname "-" $dname | nospace }}
+    {{- if $deployment.service.nameOverride }}
+    {{- $svcName := $deployment.service.nameOverride }}
+    {{- end }}
+  - apiVersion: traefik.io/v1alpha1
+    kind: IngressRoute
+    metadata:
+      name: {{ $iname }}-{{ $dname }}
+      labels:
+        {{- include "platformex.kubernetesAppLabels" $deploymentContext | indent 8 }}
+        {{- include "platformex.globalLabels" $ | indent 8 }}
+      annotations:
+        "kubernetes.io/ingress.class": "traefik"
+    spec:
+      entryPoints:
+        {{- if $deployment.ingress.traefikEntrypoints }}
+          {{- range $deployment.ingress.traefikEntrypoints }}
+        - {{ . }}
+          {{- end }}
+        {{- else }}
+          {{- range $.Values.global.defaults.traefikEntrypoints }}
+        - {{ . }}
+          {{- end }}
+        {{- end }}
+      routes:
+        {{- include "platformex.ingressroute.simple" (dict "ingress" $deployment.ingress "svc" $svcName "port" $deployment.service.port) | indent 8 }}
+        {{- include "platformex.ingressroute" (dict "routes" $deployment.ingress.routes "svc" $svcName "port" $deployment.service.port) | indent 8 }}
+  {{- end }}
+  {{- end }}
+  {{- end }}

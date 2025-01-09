@@ -1,8 +1,14 @@
 Platformex App chart
 ---
+Flexible helm chart to deploy your apps to kubernetes cluster.  
+Simplifies complex deployments with abstractions and reasonable defaults.
+
+>We did it, so you won't have to.
+
+## Disclaimer:
+Please do not consider this chart "stable" or production-ready yet. We're getting there ;)
 
 ## Installation:
-
 Use this chart as a dependency inside your app's own chart:
 
 ```yaml
@@ -16,19 +22,18 @@ appVersion: 1.0.0
 
 dependencies:
   - name: app
-    version: 0.3.1
+    version: 0.4.0
     repository: https://wojciechem.github.io/platformex
 ```
 For values please see [values-example.yaml](charts/app/values-example.yaml)
 
 ## TODO:
-- [ ] 1st working version
-- [x] values-example.yaml file with all possible options used
-- [ ] simple stupid test
-- [x] json schema based on values-example.yaml
-  - [ ] deployment.containers required
-- use kubernetes json schema where possible:
-```text
-https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/v1.31.3/probe.json
-
-```
+- Chart
+  - [ ] Mimimal stable v1.0.0
+  - [ ] Tests
+- [Ingress routes](charts/app/templates/_ingressroute.tpl)
+  - [ ] custom service definitions for traefik ingressroutes (see https://doc.traefik.io/traefik/routing/providers/kubernetes-crd/#kind-ingressroute)
+  - [ ] TraefikService support in ingressroutes
+- Json schema
+- [ ] deployment.containers required
+- [ ] use kubernetes json schema where possible, [example](https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/v1.31.3/probe.json)

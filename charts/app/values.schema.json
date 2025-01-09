@@ -87,6 +87,9 @@
           "items": {
             "type": "string"
           }
+        },
+        "traefikEntrypoints": {
+          "type": "array"
         }
       },
       "title": "Defaults"
@@ -185,6 +188,9 @@
           "$ref": "#/definitions/Containers"
         },
         "service": {
+          "type": "object"
+        },
+        "ingress": {
           "type": "object"
         }
       },

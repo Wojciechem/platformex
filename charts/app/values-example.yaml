@@ -4,6 +4,9 @@ global:
   defaults:
     imagePullSecrets:
       - "oci-kodzik"
+    traefikEntrypoints:
+      - web
+      - websecure
 
 envRefs:
   common:
@@ -59,6 +62,14 @@ instances:
           targetPort: 80
           protocol: TCP
           portName: portname
+        ingress:
+          traefikEntrypoints:
+            - web
+          # if you need route for one host with no middlewares and using default service - use ingress.simple
+          simple: "beta.example.com"
+          # routes let you define routes with rules and middlewares (we plan full IngressRoute support in future)
+          routes:
+            - match: Host(`test.example.com`)
         initContainers:
           pszemek:
             imageRef: demo
