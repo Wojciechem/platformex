@@ -52,6 +52,13 @@ instances:
               EIP: "false"
       testowy:
         replicas: 3
+        revisionHistoryLimit: 5
+        service:
+          type: ClusterIP
+          port: 80
+          targetPort: 80
+          protocol: TCP
+          portName: portname
         initContainers:
           pszemek:
             imageRef: demo
