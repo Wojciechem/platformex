@@ -7,13 +7,12 @@ items:
   - apiVersion: apps/v1
     kind: Deployment
     metadata:
-      name: {{ $dname }}
-      annotations:
-        labels:
-          {{- include "platformex.kubernetesAppLabels" $deploymentContext | indent 10 }}
-          {{- include "platformex.globalLabels" $ | indent 10 }}
+      name: {{ $iname }}-{{ $dname }}
+      labels:
+        {{- include "platformex.kubernetesAppLabels" $deploymentContext | indent 10 }}
+        {{- include "platformex.globalLabels" $ | indent 10 }}
     spec:
-      revisionHistoryLimit: 3
+      revisionHistoryLimit: {{ $deployment.revisionHistoryLimit | default 3 }}
       {{- include "platformex.deployment.replicas" $deploymentContext | indent 6 }}
       selector:
         matchLabels:
