@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: List
+items:
+  {{- range $iname, $instance := .Values.instances }}
+  {{- range $cname, $cron := $instance.crons }}
+  {{- $cronContext := dict "iname" $iname "instance" $instance "name" $cname "deployment" $cron "root" $ }}
+  - apiVersion: batch/v1
+    kind: CronJob
+    metadata:
+      name: {{ $iname }}-{{$cname}}
+      labels:
+        {{- include "platformex.kubernetesAppLabels" $cronContext | indent 10 }}
+        {{- include "platformex.globalLabels" $ | indent 10 }}
+    spec:
+      concurrencyPolicy: {{ $cron.concurrencyPolicy | default "Forbid" }}
+      failedJobsHistoryLimit: {{ $cron.failedJobsHistoryLimit | default 2 }}
+      schedule: {{ required "schedule is required!" $cron.schedule | quote }}
+      timeZone: {{ $cron.timezone | default "UTC" }}
+      {{- include "platformex.cron.suspend" $cronContext | indent 6 }}
+      startingDeadlineSeconds: {{ $cron.startingDeadlineSeconds | default 10 }}
+      successfulJobsHistoryLimit: {{ $cron.successfulJobsHistoryLimit | default 2 }}
+      jobTemplate:
+        spec:
+          backoffLimit: {{ $cron.jobTemplate.backoffLimit | default 2 }}
+          template:
+            metadata:
+              labels:
+                {{- include "platformex.kubernetesAppLabels" $cronContext | indent 16 }}
+            spec:
+              {{- include "platformex.deployment.volumes" $cronContext | indent 14 }}
+              {{- include "platformex.deployment.nodeSelector" $cronContext | indent 14 }}
+              {{- include "platformex.deployment.imagePullSecrets" $cronContext | indent 14 }}
+              restartPolicy: {{ $cron.restartPolicy | default "OnFailure" }}
+              {{- if $cron.initContainers }}
+              initContainers:
+                {{- range $icName, $initContainer := $cron.initContainers }}
+                {{- $icContext := dict "iname" $iname "instance" $instance "name" $icName "container" $initContainer "root" $ }}
+                - {{- include "platformex.containerFull" $icContext | indent 14 }}
+                {{- end }}
+              {{- end }}
+              containers:
+                {{- range $cName, $container := $cron.containers }}
+                {{- $containerContext := dict "iname" $iname "instance" $instance "name" $cName "container" $container "root" $ }}
+                - {{- include "platformex.containerFull" $cronContext | indent 14 }}
+                {{- end }}
+  {{- end }}
+  {{- end }}

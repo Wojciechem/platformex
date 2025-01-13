@@ -31,7 +31,14 @@ instances:
   default:
     enableCrons: true
     enableWorkers: true
-    crons: { }
+    crons:
+      legendary-cron-at-midnight:
+        concurrencyPolicy: "Replace"
+        failedJobsHistoryLimit: 2
+        schedule: "0 0 * * *"
+        timezone: "Europe/Warsaw"
+        jobTemplate: { }
+        containers: { }
     deployments:
       consumer-xyz:
         worker: true

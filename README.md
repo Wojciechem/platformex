@@ -22,14 +22,14 @@ appVersion: 1.0.0
 
 dependencies:
   - name: app
-    version: 0.4.0
+    version: 0.5.0
     repository: https://wojciechem.github.io/platformex
 ```
 For values please see [values-example.yaml](charts/app/values-example.yaml)
 
 ## TODO:
 - Chart
-  - [ ] Mimimal stable v1.0.0
+  - [ ] Minimal stable v1.0.0
   - [ ] Tests
 - [Ingress routes](charts/app/templates/_ingressroute.tpl)
   - [ ] custom service definitions for traefik ingressroutes (see https://doc.traefik.io/traefik/routing/providers/kubernetes-crd/#kind-ingressroute)
