@@ -23,7 +23,7 @@ appVersion: 1.0.0
 dependencies:
   - name: app
     version: 0.5.11
-    repository: https://wojciechem.github.io/platformex
+    repository: oci://ghcr.io/wojciechem/platformex
 ```
 For values please see [values-example.yaml](charts/app/values-example.yaml)
 
@@ -35,5 +35,5 @@ For values please see [values-example.yaml](charts/app/values-example.yaml)
   - [ ] custom service definitions for traefik ingressroutes (see https://doc.traefik.io/traefik/routing/providers/kubernetes-crd/#kind-ingressroute)
   - [ ] TraefikService support in ingressroutes
 - Json schema
-- [ ] deployment.containers required
-- [ ] use kubernetes json schema where possible, [example](https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/v1.31.3/probe.json)
+  - [ ] deployment.containers required
+  - [ ] use kubernetes json schema where possible, [example](https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/v1.31.3/probe.json)
