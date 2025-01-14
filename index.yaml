@@ -3,6 +3,16 @@ entries:
   app:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2025-01-14T16:40:46.159815934Z"
+    description: Flexible helm chart to deploy your apps to kubernetes cluster.
+    digest: f0fca050cbe69b7485144ba1205637564d4724919960b0144067321f98258f26
+    name: app
+    type: application
+    urls:
+    - https://github.com/Wojciechem/platformex/releases/download/app-0.5.7/app-0.5.7.tgz
+    version: 0.5.7
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2025-01-14T16:25:12.708066813Z"
     description: Flexible helm chart to deploy your apps to kubernetes cluster.
     digest: e6a64ea129b3b858bf9629eb83006b75a3cbd81be32f54d6e81f4abd3f856c2f
@@ -132,4 +142,4 @@ entries:
     urls:
     - platformex-0.1.0.tgz
     version: 0.1.0
-generated: "2025-01-14T16:25:12.70811316Z"
+generated: "2025-01-14T16:40:46.159916101Z"
