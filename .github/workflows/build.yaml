@@ -41,5 +41,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Log in to registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | helm registry login ghcr.io/wojciechem -u ${{ github.actor }} --password-stdin
+      - name: Test ffs
+        run: docker push ubuntu ghcr.io/wojciechem/platformex
       - name: Push chart to oci registry
         run: if [ -n "$(find . -name '.cr-release-packages')" ]; then cp .cr-release-packages/app*.tgz app.tgz && helm push app.tgz oci://ghcr.io/wojciechem/platformex; fi
