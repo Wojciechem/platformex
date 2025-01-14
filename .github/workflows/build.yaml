@@ -29,10 +29,10 @@ jobs:
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.6.0
         with:
-          packages_with_index: true
+          skip_upload: true
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
       - name: Log in to registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
       - name: Push chart to oci registry
-        run: if [ -n "$(find . -name '.cr-release-packages')" ]; then cp .cr-release-packages/app*.tgz app.tgz && helm push app.tgz oci://ghcr.io/wojciechem/platformex/app; fi
+        run: if [ -n "$(find . -name '.cr-release-packages')" ]; then cp .cr-release-packages/app*.tgz app.tgz && helm push app.tgz oci://ghcr.io/wojciechem/platformex; fi
