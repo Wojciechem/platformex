@@ -22,7 +22,7 @@ appVersion: 1.0.0
 
 dependencies:
   - name: app
-    version: 0.5.0
+    version: 0.5.11
     repository: https://wojciechem.github.io/platformex
 ```
 For values please see [values-example.yaml](charts/app/values-example.yaml)
