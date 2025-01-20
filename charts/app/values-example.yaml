@@ -26,8 +26,39 @@ imageRefs:
   demo:
     repository: "oci.kodzik.cloud/public/demko"
     tag: "1.0.0"
+  test:
+    repository: "oci.kodzik.cloud/public/test"
+    tag: "2.3.4"
+
+sealedSecrets:
+  secret1:
+    name: asecret
+    namespace: xyz
+    sealedData:
+      - key: password
+        value: (encrypted-value-goes-here)
+    data:
+      - key: username
+        value: unencrypted-values-go-here
+  secret2:
+    name: bsecret
+    sealedData:
+      - key: passcode
+        value: (encrypted-passcode)
 
 instances:
+  1-plain:
+    enableCrons: false
+    enableWorkers: false
+    deployments:
+      one:
+        replicas: 1
+        revisionHistoryLimit: 2
+        containers:
+          one-container:
+            image: oci.kodzik.cloud/public/one:1.0.0
+            env:
+              ONE: "1"
   default:
     enableCrons: true
     enableWorkers: true

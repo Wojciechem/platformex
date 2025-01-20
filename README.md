@@ -22,10 +22,16 @@ appVersion: 1.0.0
 
 dependencies:
   - name: app
-    version: 0.5.11
+    version: 0.6.0
     repository: oci://ghcr.io/wojciechem/platformex
 ```
+
 For values please see [values-example.yaml](charts/app/values-example.yaml)
+
+## Gotchas
+
+In order to render templates locally, if using `sealedSecrets`, you may need to pass
+`--api-versions bitnami.com/v1alpha1/SealedSecret` to `helm template` command.
 
 ## TODO:
 - Chart

@@ -15,6 +15,9 @@
         "imageRefs": {
           "$ref": "#/definitions/ImageRefs"
         },
+        "sealedSecrets": {
+          "type": "object"
+        },
         "instances": {
           "$ref": "#/definitions/Instances"
         }
