@@ -46,6 +46,14 @@ sealedSecrets:
       - key: passcode
         value: (encrypted-passcode)
 
+traefikMiddlewares:
+  - name: someForwardAuth
+    spec:
+      forwardAuth:
+        address: "hxxp://auth.svc"
+        authResponseHeaders:
+          - X-Authservice
+
 instances:
   1-plain:
     enableCrons: false

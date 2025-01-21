@@ -18,6 +18,10 @@
         "sealedSecrets": {
           "type": "object"
         },
+
+        "traefikMiddlewares": {
+          "type": "array"
+        },
         "instances": {
           "$ref": "#/definitions/Instances"
         }
