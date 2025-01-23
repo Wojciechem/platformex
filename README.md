@@ -22,7 +22,7 @@ appVersion: 1.0.0
 
 dependencies:
   - name: app
-    version: 0.7.0
+    version: 0.7.1
     repository: oci://ghcr.io/wojciechem/platformex
 ```
 
