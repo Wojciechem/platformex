@@ -22,9 +22,12 @@ nodeSelector:
 
 {{- define "platformex.deployment.imagePullSecrets" }}
 {{- if .deployment.imagePullSecrets }}
+imagePullSecrets: {{- range .deployment.imagePullSecrets }}
+  - name: {{ . }}
+{{- end }}
 {{- else }}
 imagePullSecrets: {{- range .root.Values.global.defaults.imagePullSecrets }}
-  - {{ . }}
+  - name: {{ . }}
 {{- end }}
 {{- end }}
 {{- end }}
