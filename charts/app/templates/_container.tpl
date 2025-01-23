@@ -38,7 +38,7 @@ env:
 {{- range $name, $env := .container.env }}
  - name: {{ $name }}
  {{- if typeIs "string" $env }}
-   value: {{ $env }}
+   value: {{ $env | quote }}
  {{- else if hasKey $env "valueFrom" }}
    valueFrom:
     {{- toYaml $env.valueFrom | nindent 4 }}
@@ -50,7 +50,7 @@ env:
 {{- range $name, $env := $ref }}
  - name: {{ $name }}
  {{- if typeIs "string" $env }}
-   value: {{ $env }}
+   value: {{ $env | quote }}
  {{- else if hasKey $env "valueFrom" }}
    valueFrom: {{- toYaml $env.valueFrom | nindent 4 }}
  {{- end }}
